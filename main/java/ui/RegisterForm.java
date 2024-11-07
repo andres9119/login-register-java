@@ -13,21 +13,35 @@ public class RegisterForm extends JFrame {
 
     public RegisterForm() {
         setTitle("Register Form");
-        setLayout(new GridLayout(3, 2)); // Grid para 2 columnas
+        setSize(350, 250);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);  // Centrar la ventana
 
-        // Crear los componentes
+        // Crear el panel principal con BoxLayout
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(new Color(230, 240, 255));
+
+        // Crear el título y aplicar estilo
+        JLabel titleLabel = new JLabel("User Registration");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setForeground(new Color(60, 70, 92));
+
+        // Crear los componentes de entrada
         JLabel usernameLabel = new JLabel("Username:");
-        usernameField = new JTextField();
+        usernameField = new JTextField(15);
         JLabel passwordLabel = new JLabel("Password:");
-        passwordField = new JPasswordField();
-        registerButton = new JButton("Register");
+        passwordField = new JPasswordField(15);
 
-        // Agregar los componentes al JFrame
-        add(usernameLabel);
-        add(usernameField);
-        add(passwordLabel);
-        add(passwordField);
-        add(registerButton);
+        // Configuración del botón de registro
+        registerButton = new JButton("Register");
+        registerButton.setBackground(new Color(70, 130, 180));
+        registerButton.setForeground(Color.WHITE);
+        registerButton.setFocusPainted(false);
+        registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        registerButton.setMaximumSize(new Dimension(200, 30));
 
         // Acción al presionar el botón de registro
         registerButton.addActionListener(new ActionListener() {
@@ -36,7 +50,6 @@ public class RegisterForm extends JFrame {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
 
-                // Crear una instancia de UserDAO para registrar el usuario
                 UserDAO userDAO = new UserDAO();
                 boolean success = userDAO.registerUser(username, password);
                 if (success) {
@@ -47,10 +60,22 @@ public class RegisterForm extends JFrame {
             }
         });
 
-        // Configurar ventana
-        setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);  // Centrar la ventana
+        // Añadir los componentes al panel
+        mainPanel.add(titleLabel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));  // Espaciado
+
+        mainPanel.add(usernameLabel);
+        mainPanel.add(usernameField);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));  // Espaciado
+
+        mainPanel.add(passwordLabel);
+        mainPanel.add(passwordField);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));  // Espaciado
+
+        mainPanel.add(registerButton);
+
+        // Añadir el panel al frame
+        add(mainPanel);
     }
 
     public static void main(String[] args) {

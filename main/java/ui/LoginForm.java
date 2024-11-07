@@ -13,21 +13,34 @@ public class LoginForm extends JFrame {
 
     public LoginForm() {
         setTitle("Login Form");
-        setLayout(new GridLayout(3, 2));
+        setSize(350, 250);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        // Crear los componentes
+        // Crear el panel principal con BoxLayout
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(new Color(230, 240, 255));
+
+        JLabel titleLabel = new JLabel("User Login");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setForeground(new Color(60, 70, 92));
+
+        // Crear los componentes de entrada
         JLabel usernameLabel = new JLabel("Username:");
-        usernameField = new JTextField();
+        usernameField = new JTextField(15);
         JLabel passwordLabel = new JLabel("Password:");
-        passwordField = new JPasswordField();
-        loginButton = new JButton("Login");
+        passwordField = new JPasswordField(15);
 
-        // Agregar los componentes al JFrame
-        add(usernameLabel);
-        add(usernameField);
-        add(passwordLabel);
-        add(passwordField);
-        add(loginButton);
+        // Configuración del botón de login
+        loginButton = new JButton("Login");
+        loginButton.setBackground(new Color(70, 130, 180));
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setFocusPainted(false);
+        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loginButton.setMaximumSize(new Dimension(200, 30));
 
         // Acción al presionar el botón de login
         loginButton.addActionListener(new ActionListener() {
@@ -36,7 +49,6 @@ public class LoginForm extends JFrame {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
 
-                // Crear una instancia de UserDAO para validar el login
                 UserDAO userDAO = new UserDAO();
                 boolean loginSuccess = userDAO.validateLogin(username, password);
                 if (loginSuccess) {
@@ -47,10 +59,22 @@ public class LoginForm extends JFrame {
             }
         });
 
-        // Configurar ventana
-        setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);  // Centrar la ventana
+        // Añadir los componentes al panel
+        mainPanel.add(titleLabel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        mainPanel.add(usernameLabel);
+        mainPanel.add(usernameField);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        mainPanel.add(passwordLabel);
+        mainPanel.add(passwordField);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        mainPanel.add(loginButton);
+
+        // Añadir el panel al frame
+        add(mainPanel);
     }
 
     public static void main(String[] args) {
